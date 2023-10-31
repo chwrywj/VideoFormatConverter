@@ -3,7 +3,7 @@ A video format conversion application.
 
 Supports 25 languages including English, French, Spanish, German, Bulgarian, Czech, Danish, Greek, Estonian, Finnish, Hungarian, Italian, Japanese, Korean, Dutch, Polish, Portuguese, Romanian, Russian, Slovenian, Swedish, Thai, Vietnamese, Simplified Chinese, Traditional Chinese, etc.
 
-Developed using Electron, image processing uses the ffmpeg plugin.
+Developed using Electron, video processing uses the ffmpeg plugin.
 
 # Releases
 Currently, there are only Windows installation packages available.
