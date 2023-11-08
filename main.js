@@ -5,7 +5,7 @@ let mainWindow
 
 function createWindow() {
     mainWindow = new BrowserWindow({
-        width: 1230,
+        width: 1100,
         height: 800,
         //show: false,
         icon: path.join(__dirname,"./src/img/icon.png"),
@@ -21,7 +21,7 @@ function createWindow() {
 
     mainWindow.loadFile('src/index.html')
 
-    //mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
 
     mainWindow.on('closed', function () {
         mainWindow = null

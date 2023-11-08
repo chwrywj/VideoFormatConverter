@@ -24,6 +24,8 @@ const ffmpeg = require('fluent-ffmpeg');
   ffmpeg.setFfmpegPath(binPath);
 })();
 
+var ffmpegCommandArr=[];
+
 contextBridge.exposeInMainWorld('electronAPI', {
   openBrowser: (url) => {
     shell.openExternal(url);
@@ -99,30 +101,30 @@ contextBridge.exposeInMainWorld('electronAPI', {
   
   execFfmpeg: (input, output, opts, progressCallback,endCallback,errorCallback) => {
     try{
-      var ffmpegCommand = ffmpeg(input)
-        .output(output)
+      ffmpegCommand = ffmpeg(input)
         .on('start', function (commandLine) {
           console.log('Format conversion start: ' + commandLine);
         })
         .on('progress', function (progress) {
           //console.log('Processing: ' + progress.percent + '% done');
           if(progressCallback!=null){
-            progressCallback(progress,output);
+            progressCallback(progress);
           }
         })
         .on('end', function (stdout, stderr) {
           console.log('Format conversion succeeded!');
           if(endCallback!=null){
-            endCallback(output);
+            endCallback();
           }
         })
         .on('error', function (err, stdout, stderr) {
-          console.log('Cannot process video: ', err);
+          console.log('Cannot process: ', err);
           if(errorCallback!=null){
-            errorCallback(output);
+            errorCallback();
           }
         })
-        .run();
+        .save(output);
+        ffmpegCommandArr.push(ffmpegCommand);
     }catch(e){
       console.log(e);
       if(errorCallback!=null){
@@ -131,10 +133,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
     }
   },
 
-  stopFfmpegCommand:()=>{
-    // if(ffmpegCommand!=null){
-    //   ffmpegCommand.kill();
-    // }
+  killFfmpegCommand:()=>{
+    for(var i=ffmpegCommandArr.length-1;i>=0;i--){
+      ffmpegCommandArr[i].kill();
+      ffmpegCommandArr.splice(i,1);
+    }
   }
 })
 

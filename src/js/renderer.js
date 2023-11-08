@@ -4,7 +4,7 @@ new Vue({
         return {
             langRes:null,
 
-            videoExtArr:['mp4','avi','mkv','mov','flv','mpeg','mpg','ts'],
+            videoExtArr:['mp4','avi','mkv','mov','flv','swf','mpeg','mpg','ts'],
             // audioExtArr:['mp3','wav','aiff','au','wma','flac','ogg','aac','ra','rm'],
             // imageExtArr:['jpg','jpeg','png','gif','bmp','tiff'],
 
@@ -119,16 +119,7 @@ new Vue({
                                     return item.sourcePath == metaData.format.filename
                                 });
                                 filterData[0].sourceSize=metaData.format.size;
-                                filterData[0].sourceBitRate=metaData.format.bit_rate;
-                                for(var k=0;k<metaData.streams.length;k++){
-                                    if(metaData.streams[k].codec_type=='video'){
-                                        filterData[0].sourceFrameRate=this.toNum(metaData.streams[k].r_frame_rate.split('/')[0]);
-                                        filterData[0].sourceWidth=metaData.streams[k].width;
-                                        filterData[0].sourceHeight=metaData.streams[k].height;
-                                        break;
-                                    }
-                                }
-                                console.log(metaData)
+                                //console.log(metaData)
                             });
                         }
                         this.tableLoading=false;
@@ -172,15 +163,6 @@ new Vue({
                                     return item.sourcePath == metaData.format.filename
                                 });
                                 filterData[0].sourceSize=metaData.format.size;
-                                filterData[0].sourceBitRate=metaData.format.bit_rate;
-                                for(var k=0;k<metaData.streams.length;k++){
-                                    if(metaData.streams[k].codec_type=='video'){
-                                        filterData[0].sourceFrameRate=this.toNum(metaData.streams[k].r_frame_rate.split('/')[0]);
-                                        filterData[0].sourceWidth=metaData.streams[k].width;
-                                        filterData[0].sourceHeight=metaData.streams[k].height;
-                                        break;
-                                    }
-                                }
                             });
                         }
                         this.tableLoading=false;
@@ -253,20 +235,32 @@ new Vue({
             }
         },
 
+        killFfmpegCommand(){
+            electronAPI.killFfmpegCommand();
+            this.convertIng=false;
+            var filterData = this.fileData.filter(item => {
+                return item.status == 1
+            });
+            for(var i=0;i<filterData.length;i++){
+                filterData[i].status=0;
+                filterData[i].convertPercent=0;
+            }
+
+            setTimeout(() => {
+                for(var i=0;i<filterData.length;i++){
+                    if(!this.isNullOrEmpty(filterData[i].newTmpPath)){
+                        electronAPI.removeFile(filterData[i].newTmpPath);
+                        filterData[i].newTmpPath=null;
+                    }
+                }
+            }, 1000);
+        },
+
         goConvert(){
             if(this.fileConvertPercent==100)
                 return;
             if(this.convertIng){
-                this.convertIng=false;
-
-                //At present, canceling the task is not true, and no implementation method for terminating the ffmpeg command has been found
-                var filterData = this.fileData.filter(item => {
-                    return item.status == 1
-                });
-                for(var i=0;i<filterData.length;i++){
-                    filterData[i].status=0;
-                    filterData[i].convertPercent=0;
-                }
+                this.killFfmpegCommand();
                 return;
             }
 
@@ -274,7 +268,7 @@ new Vue({
                 return item.newFormat == null
             });
             if(newFormatNoSettingData.length>0){
-                this.$message.warning(this.lang('newFormatNoSettingTip'));
+                this.$message.error(this.lang('newFormatNoSettingTip'));
                 return;
             }
             
@@ -315,16 +309,13 @@ new Vue({
                     this.fileData[j].status=1;
                     this.fileData[j].newTmpPath=outputPath;
 
-                    electronAPI.execFfmpeg(this.fileData[j].sourcePath, outputPath, null,(progress,output)=>{
-                        if(this.fileData[j].newTmpPath!=output)return;
-                        this.fileData[j].convertPercent=progress.percent.toFixed(1);
-                    },(output)=>{
-                        if(!this.convertIng || this.fileData[j].newTmpPath!=output){
-                            electronAPI.removeFile(output);
-                            return
-                        };
+                    electronAPI.execFfmpeg(this.fileData[j].sourcePath, outputPath, null,(progress)=>{
+                        if(!this.isNullOrEmpty(progress.percent) && !isNaN(progress.percent))
+                            this.fileData[j].convertPercent=progress.percent.toFixed(1);
+                    },()=>{
                         this.fileData[j].status=2;
                         this.fileData[j].newPath=outputPath;
+                        this.fileData[j].newTmpPath=null;
                         this.convertStart();
                         this.convertOver();
                         electronAPI.getVideoOrAudioMetaData(outputPath,(metaData)=>{
@@ -332,7 +323,7 @@ new Vue({
                             this.fileData[j].newBitRate=metaData.format.bit_rate;
                             for(var k=0;k<metaData.streams.length;k++){
                                 if(metaData.streams[k].codec_type=='video'){
-                                    this.fileData[j].newFrameRate=metaData.streams[k].r_frame_rate.split('/')[0];
+                                    this.fileData[j].newFrameRate=Number(eval(metaData.streams[k].r_frame_rate).toFixed(0));
                                     this.fileData[j].newWidth=metaData.streams[k].width;
                                     this.fileData[j].newHeight=metaData.streams[k].height;
                                     break;
@@ -340,11 +331,11 @@ new Vue({
                             }
                             console.log(metaData)
                         });
-                    },(output)=>{
-                        electronAPI.removeFile(output);
-                        if(!this.convertIng){
-                            return
-                        };
+                    },()=>{
+                        if(!this.compressIng)
+                            return;
+                        electronAPI.removeFile(this.fileData[j].newTmpPath);
+                        this.fileData[j].newTmpPath=null;
                         this.fileData[j].status=3;
                         this.convertStart();
                         this.convertOver();

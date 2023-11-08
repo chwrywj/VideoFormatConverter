@@ -92,7 +92,7 @@
                                     {{scope.row.sourceSize!=null?(scope.row.sourceSize/1024/1024).toFixed(2)+"MB":""}}
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="sourceFormat" :label="lang('sourceFormat')" min-width="100px" show-overflow-tooltip></el-table-column>
+                            <el-table-column prop="sourceFormat" :label="lang('sourceFormat')" min-width="120px" show-overflow-tooltip></el-table-column>
                             <el-table-column prop="newPath" :label="lang('newPath')" min-width="150px" show-overflow-tooltip>
                                 <template slot-scope="scope">
                                     <div @click="openPath(scope.row.newPath)" style="cursor: pointer;">{{scope.row.newPath}}</div>
@@ -103,9 +103,9 @@
                                     {{scope.row.newSize!=null?(scope.row.newSize/1024/1024).toFixed(2)+"MB":""}}
                                 </template>
                             </el-table-column>
-                            <el-table-column prop="newFormat" :label="lang('newFormat')" min-width="100px" show-overflow-tooltip fixed="right">
+                            <el-table-column prop="newFormat" :label="lang('newFormat')" min-width="120px" show-overflow-tooltip fixed="right">
                                 <template slot-scope="scope">
-                                    <el-select class="content" v-model="scope.row.newFormat" :disabled="convertIng" :placeholder="lang('selectTip')">
+                                    <el-select class="content" v-model="scope.row.newFormat" :disabled="convertIng" :placeholder="lang('selectTip')" size="mini">
                                         <el-option v-for="item in videoExtArr" :key="item" :label="item" :value="item"></el-option>
                                     </el-select>
                                 </template>
@@ -149,7 +149,7 @@
                         <span slot="label" class="label">
                             {{lang('batchSetNewFormat')}}
                         </span>
-                        <el-select class="content" v-model="convertOptions.newFormat" :disabled="convertIng" @change="newFormatChange":placeholder="lang('selectTip')">
+                        <el-select class="content" v-model="convertOptions.newFormat" :disabled="convertIng" @change="newFormatChange" :placeholder="lang('selectTip')">
                             <el-option v-for="item in videoExtArr" :key="item" :label="item" :value="item"></el-option>
                         </el-select>
                     </el-form-item>
