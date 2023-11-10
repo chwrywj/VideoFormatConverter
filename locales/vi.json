@@ -1,5 +1,5 @@
 {
-	"title": "Chuyển đổi định dạng video thế giới kỹ thuật số",
+	"title": "Thế giới kỹ thuật số: Chuyển đổi định dạng video",
 	"addFileTip": "Định dạng hỗ trợ:",
 	"addFileBtn": "Thêm tập tin",
 	"addDirBtn": "Thêm thư mục",
@@ -29,7 +29,7 @@
 	"donata": "Đóng góp",
   
 	"unConvert": "Chuyển đổi",
-	"convertIng": "Chuyển đổi",
+	"convertIng": "Đang chuyển đổi",
 	"convertSuccess": "Thành công",
 	"convertFail": "Thất bại",
 	"tip": "Mẹo",
