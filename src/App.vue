@@ -56,7 +56,7 @@
       };
 
       const languageList = reactive(
-        {'bg':'Български','cs':'Čeština','da':'Dansk','de':'Deutsch','el':'Ελληνικά','en':'English','es':'Español','et':'Eesti','fi':'Suomi','fr':'Français','hu':'Magyar','it':'Italiano','ja':'日本語','ko':'조선말','nl':'Nederlands','pl':'Polski','pt':'Português','ro':'Română','ru':'Русский','sl':'Slovenščina','sv':'Svenska','th':'ภาษาไทย','vi':'Tiếng Việt','zh':'简体中文','zh-tw':'繁體中文'}
+        {'bg':'Български', 'cs':'Čeština','da':'Dansk','de':'Deutsch','el':'Ελληνικά','en':'English','es':'Español','et':'Eesti','fi':'Suomi','fr':'Français','hu':'Magyar','it':'Italiano','ja':'日本語','ko':'조선말','nl':'Nederlands','pl':'Polski','pt':'Português','ro':'Română','ru':'Русский','sl':'Slovenščina','sv':'Svenska','th':'ภาษาไทย','vi':'Tiếng Việt','zh':'简体中文','zh-tw':'繁體中文'}
       );
       let locale = ref(localStorage.getItem('locale'));
       let languageDialogVisible = ref(false);
