@@ -1,0 +1,79 @@
+{
+  "common": {
+    "title": "数字世界: 视频格式转换",
+
+    "videoCut": "视频剪切",
+    "videoMerge": "视频合并",
+    "videoCompress": "视频压缩",
+    "videoFormatConversion": "视频格式转换",
+    "videoAddWatermark": "添加水印",
+    "videoAddDubbing": "添加配音",
+    "videoAddSubtitles": "添加字幕",
+    "videoCreateGif": "生成GIF动画",
+    "language": "语言",
+    "support": "技术支持",
+    "donata": "捐赠",
+
+    "addFileTip": "支持格式：",
+    "addVideoBtn": "添加视频",
+    "addDirBtn": "添加文件夹",
+    "addDirTip": "会找出选中的文件夹及子文件夹里面的所有视频文件",
+    "clearFile": "清空",
+
+    "sourcePath": "原路径",
+    "sourceSize": "原大小",
+    "sourceBitRate": "原比特率",
+    "sourceFrameRate": "原帧速率",
+    "sourceResolution": "原分辨率",
+    "newPath": "新路径",
+    "newSize": "新大小",
+    "newBitRate": "新比特率",
+    "newFrameRate": "新帧速率",
+    "newResolution": "新分辨率",
+    "status": "状态",
+
+    "taskThreadsNumber": "任务线程数",
+    "taskThreadsNumberTip": "任务线程数越大消耗CUP和内存越多，普通电脑建议选择1-3",
+    "videoResolution": "视频分辨率",
+    "useSourceResolution": "使用原分辨率",
+    "customResolution": "自定义分辨率",
+    "customMaxResolution": "自定义最大分辨率",
+    "width": "宽度",
+    "height": "高度",
+    "maxWidth": "最大宽度",
+    "maxHeight": "最大高度",
+    "customResolutionTip1": "不设置时会使用视频原分辨率。",
+    "customResolutionTip2": "若只设置了宽度或者高度，另外一个值会根据视频分辨率等比值自动计算。",
+    "customResolutionTip3": "若视频原有宽高小于设置的宽高时将会使用视频原有分辨率。",
+    "customResolutionTip4": "若视频原有宽高大于设置的宽高会等比缩小视频。",
+    "customResolutionRequired": "请输入视频分辨率",
+    "mustBeInt": "必须是整数",
+    "outDir": "视频输出目录",
+    "selectOutputDirTip": "请选择输出目录",
+    "selectTip": "请选择",
+
+    "tip": "提示",
+    "ok": "确定",
+    "cancel": "取消",
+    "systemError": "程序出现错误"
+  },
+
+  "videoFormatConvert": {
+    "tip": "批量转换视频格式",
+
+    "sourceFormat": "原格式",
+    "newFormat": "目标格式",
+
+    "convertSetting": "转换设置",
+    "batchSetNewFormat": "批量设置目标格式",
+    "convertStart": "开始转换",
+    "convertStop": "停止转换",
+    "newFormatNoSettingTip": "请给所有视频设置目标格式",
+
+    "unConvert": "待转换",
+    "convertIng": "转换中",
+    "convertSuccess": "成功",
+    "convertFail": "失败",
+    "convertOver": "转换完成"
+  }
+}
